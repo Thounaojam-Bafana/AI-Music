@@ -3,6 +3,9 @@ var leftWristX = 0;
 var leftWristY = 0;
 var rightWristX = 0;
 var rightWristY = 0;
+var scoreLeftWrist = 0;
+var scoreRightWrist = 0;
+var songStatus = "";
 
 function preload(){
     ukhidari_nangumba = loadSound('Ukhidari Nangumba Shilheiba & Biju 2020 Gee Thoibi Movie Official Song Release.mp3');
@@ -20,6 +23,22 @@ function setup(){
 
 function draw(){
     image(video, 0, 0, 500, 500);
+
+    songStatus = chidi_blauri.isPlaying();
+
+    fill(245, 20, 20);
+    stroke(245, 20, 20);
+
+    if(scoreLeftWrist >= 0.2)
+    {
+      circle(leftWristX, leftWristY, 20);
+      ukhidari_nangumba.stop();
+
+      if(songStatus == false){
+          chidi_blauri.play();
+          document.getElementById("songname").innerHTML = "Song Name : Chidi Blauri"
+      }
+    }
 }
 
 function modelLoaded(){
@@ -33,5 +52,9 @@ function gotPoses(results){
         leftWristY = results[0].pose.leftWrist.y;
         rightWristX = results[0].pose.rightWrist.x;
         rightWristY = results[0].pose.rightWrist.y;
+        scoreLeftWrist = results[0].pose.keypoints[9].score;
+        console.log("Score Left Wrist = " + scoreLeftWrist);
+        console.log("Left Wrist X = " + leftWristX);
+        console.log("Left Wrist Y = " + leftWristY);
     }
 }
